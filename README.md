@@ -1,7 +1,7 @@
 # automation-ftw
 
 ### Project overview
-These scripts are created to automating daily tasks. As I learn more about shell script functionality, I will update and retool scripts. 
+These scripts are created for automating daily tasks. As I learn more about shell script functionality, scripts here will be updated and retooled!
 
 ### Usage
 [new_project.sh](./new_project.sh)
