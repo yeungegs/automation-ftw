@@ -22,7 +22,7 @@ files=../$new_dir/*
 grep "<li>File: <code>" ../$source | cut -c 19- | rev | cut -c 13- | rev | paste -s | xargs touch
 for f in $files
 do
-    echo "#\!/usr/bin/python3" >> $f
+    echo "#!/usr/bin/python3" >> $f
 done
 
 grep "<li>File: <code>" ../$source | cut -c 19- | rev | cut -c 13- | rev >> README.md
