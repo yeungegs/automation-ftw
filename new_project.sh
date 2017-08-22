@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 new_dir=0
 source=0
 tasks=0
@@ -19,14 +19,15 @@ mkdir $new_dir
 cd $new_dir
 files=../$new_dir/*
 
-grep "<li>File: <code>" ../$source | cut -c 19- | rev | cut -c 13- | rev | paste -s | xargs touch
+grep "<li>File: <code>" ../$source | cut -c 28- | rev | cut -c 13- | rev | paste -s | xargs touch
+
 for f in $files
 do
-    echo "#!/usr/bin/python3" >> $f
+    echo "#!/usr/bin/" >> $f
 done
 
-grep "<li>File: <code>" ../$source | cut -c 19- | rev | cut -c 13- | rev >> README.md
-
+grep "<li>File: <code>" ../$source | cut -c 28- | rev | cut -c 13- | rev >> README.md
+sed -n -e '/Task Body/,/pre/ p' ../$source | grep -v "pre" >> README.md
 if [ $header = y ]
 then
     grep "<li>Prototype: <code>" ../$source | cut -c 24- | rev | cut -c 13- | rev >> header.h
@@ -38,3 +39,4 @@ for NUM in `seq 0 1 $tasks`
 do
     touch $NUM-main.$ext
 done
+echo -n "gl hf~!"
