@@ -4,8 +4,8 @@ source=0
 tasks=0
 ext=0
 header=0
-echo -n "Enter name of new directory > "
-read new_dir
+#echo -n "Enter name of new directory > "
+#read new_dir
 echo -n "Enter name of source file > "
 read source
 echo -n "Enter number of mandatory tasks > "
@@ -22,12 +22,16 @@ echo -n "do you need a shebang? bash/py > "
 read shebang
 
 #make directory for new project
+new_dir=`grep -m 1 Directory $source | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://'`
 mkdir $new_dir
 cd $new_dir
 files=../$new_dir/*
 
 #create empty files for project
-grep "<li>File: <code>" ../$source | cut -c 28- | rev | cut -c 13- | rev | paste -s | xargs touch
+# old version of this script used this set of commands to parse and create files:
+# grep "<li>File: <code>" ../$source | cut -c 28- | rev | cut -c 13- | rev | paste -s | xargs touch
+# updated script uses sed to more precisely parse html to find filenames
+grep "<li>File: <code>" ../$source | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' | paste -s | xargs touch
 
 #echo shebang into first line of new files
 for f in $files; do
@@ -45,7 +49,7 @@ for f in $files; do
 done
 
 # prep README with list of files and description of tasks
-grep "<li>File: <code>" ../$source | cut -c 28- | rev | cut -c 13- | rev >> README.md
+grep "<li>File: <code>" ../$source | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' >> README.md
 sed -n -e '/Task Body/,/pre/ p' ../$source | grep -v "pre" >> README.md
 
 # prep header file for c projects
