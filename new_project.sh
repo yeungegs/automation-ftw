@@ -4,12 +4,18 @@ source=0
 tasks=0
 ext=0
 header=0
-#echo -n "Enter name of new directory > "
-#read new_dir
 echo -n "Enter name of source file > "
 read source
-echo -n "Enter number of mandatory tasks > "
-read tasks
+
+#echo -n "Enter name of new directory > "
+#read new_dir
+#make directory for new project
+new_dir=`grep -m 1 Directory $source | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://'`
+
+#echo -n "Enter number of mandatory tasks > "
+#read tasks
+# grep for number of tasks
+tasks=`grep -a1 '<h4 class="task">' 301 | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}'`
 echo -n "Enter file extension for main files (don't include '.') > "
 read ext
 echo -n "is header needed? y/n > "
@@ -21,8 +27,6 @@ read permission
 echo -n "do you need a shebang? bash/py > "
 read shebang
 
-#make directory for new project
-new_dir=`grep -m 1 Directory $source | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://'`
 mkdir $new_dir
 cd $new_dir
 files=../$new_dir/*
@@ -68,4 +72,4 @@ then
 	touch $NUM-main.$ext
     done
 fi
-echo -n "gl hf~!"
+echo -n "gl hf xD"
