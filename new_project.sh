@@ -55,6 +55,7 @@ done
 # prep README with list of files and description of tasks
 grep "<li>File: <code>" ../$source | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' >> README.md
 sed -n -e '/Task Body/,/pre/ p' ../$source | grep -v "pre" >> README.md
+cat ~/automation-ftw/template_README.md >> README.md
 
 # prep header file for c projects
 if [ $header = y ]
