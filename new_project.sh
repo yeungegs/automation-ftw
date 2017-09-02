@@ -12,13 +12,13 @@ read source
 # grep for directory name of new project and assign variable #
 ##############################################################
 
-new_dir=`grep -m 1 Directory "$source" | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://'`
+new_dir=$(grep -m 1 Directory "$source" | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://')
 
 ##########################################################
 # grep for number of tasks to create and assign variable #
 ##########################################################
 
-tasks=`grep -a1 '<h4 class="task">' "$source" | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}'`
+tasks=$(grep -a1 '<h4 class="task">' "$source" | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}')
 
 
 ################################################################
@@ -93,7 +93,7 @@ cat ~/automation-ftw/template_README.md >> README.md
 # prep main files if requested
 if [ "$main" = y ]
 then
-    for NUM in `seq 0 1 "$tasks"`
+    for NUM in $(seq 0 1 "$tasks")
     do
 	touch "$NUM-main.$ext"
     done
