@@ -18,8 +18,7 @@ new_dir=$(grep -m 1 Directory "$source" | tr -d ' ' | sed 's/<[^>]*>//g' | sed '
 # grep for number of tasks to create and assign variable #
 ##########################################################
 
-tasks=$(grep -a1 '<h4 class="task">' "$source" | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}')
-
+tasks=$(grep -a1 '<h4 class="task">' "$source" | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{2}')
 
 ################################################################
 # Make new project directory, then navigate into new directory #
@@ -111,4 +110,3 @@ echo '  # |-+-| |-+- #'
 echo '  # |   | |    #'
 echo '  #            #'
 echo '  ##############'
-
