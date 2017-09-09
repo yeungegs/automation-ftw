@@ -12,27 +12,27 @@ read source
 # grep for directory name of new project and assign variable #
 ##############################################################
 
-new_dir=`grep -m 1 Directory $source | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://'`
+new_dir=$(grep -m 1 Directory "$source" | tr -d ' ' | sed 's/<[^>]*>//g' | sed 's/Directory://')
 
 ##########################################################
 # grep for number of tasks to create and assign variable #
 ##########################################################
 
-tasks=`grep -a1 '<h4 class="task">' $source | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}'`
+tasks=$(grep -a1 '<h4 class="task">' "$source" | tr -d ' ' | tail -n 1 | egrep -o '[0-9]{1,}')
 
 
 ################################################################
 # Make new project directory, then navigate into new directory #
 # lastly specify where new files shoupld be created	       #
 ################################################################
-mkdir $new_dir
-cd $new_dir
-files=../$new_dir/*
+mkdir "$new_dir"
+cd "$new_dir"
+files=../"$new_dir"/*
 
 ######################################################################
 # create empty files for project - process source text for filenames #
 ######################################################################
-grep "<li>File: <code>" ../$source | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' | paste -s | xargs touch
+grep "<li>File: <code>" ../"$source" | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' | paste -s | xargs touch
 
 #################################################
 # prompt user to select from list of languages  #
@@ -48,30 +48,30 @@ read permission
 
 select opt in "${options[@]}"
 do
-    case $opt in
+    case "$opt" in
 	"C")
 	    # prep header file for c projects
 	    echo -n "is header needed? y/n > "
 	    read header
-	    if [ $header = y ]; then
-		grep "<li>Prototype: <code>" ../$source | cut -c 24- | rev | cut -c 13- | rev >> header.h # next revision should process text for header file name
+	    if [ "$header" = y ]; then
+		grep "<li>Prototype: <code>" ../"$source" | cut -c 24- | rev | cut -c 13- | rev >> header.h # next revision should process text for header file name
 	    fi
 	    ext=c
 	    echo "C is fun!"
 	    ;;
 	"Bash")
-	    if [ $permission = y ]; then
-		for f in $FILES; do
-		    chmod u+x $f
-		    echo '#!/usr/bin/env bash\n# comment here\n' >> $f
+	    if [ "$permission" = y ]; then
+		for f in "$FILES"; do
+		    chmod u+x "$f"
+		    echo '#!/usr/bin/env bash\n# comment here\n' >> "$f"
 		done
 	    fi
 	    ext=sh
 	    echo "Automate that shit!"
 	    ;;
 	"Python")
-	    if [ $permission = y ]; then
-		for f in $FILES; do
+	    if [ "$permission" = y ]; then
+		for f in "$FILES"; do
 		    echo '#!/usr/bin/python\n"""docstring"""\n' >> $f
 		done
 	    fi
@@ -86,16 +86,16 @@ do
 done
 
 # prep README with list of files and description of tasks
-grep "<li>File: <code>" ../$source | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' >> README.md
-sed -n -e '/Task Body/,/pre/ p' ../$source | grep -v "pre" >> README.md
+grep "<li>File: <code>" ../"$source" | tr -d ' ' | sed 's/<li>File:<code>//; s/<\/code><\/li>//' >> README.md
+sed -n -e '/Task Body/,/pre/ p' ../"$source" | grep -v "pre" >> README.md
 cat ~/automation-ftw/template_README.md >> README.md
 
 # prep main files if requested
-if [ $main = y ]
+if [ "$main" = y ]
 then
-    for NUM in `seq 0 1 $tasks`
+    for NUM in $(seq 0 1 "$tasks")
     do
-	touch $NUM-main.$ext
+	touch "$NUM-main.$ext"
     done
 fi
 
