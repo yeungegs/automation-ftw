@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # bash script to automate the installation of Fabric for Python3
 sudo pip3 uninstall Fabric
+sudo apt-get -y update
 sudo apt-get install -y libffi-dev
 sudo apt-get install -y libssl-dev
 sudo apt-get install -y build-essential
